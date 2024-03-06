@@ -23,16 +23,9 @@ def nodeComputeUsage():
         if len(pod_split_data) > 0:
             cpu_usage = pod_split_data[1]
             mem_usage = pod_split_data[2].split("Mi")
-        if args.namespace is None:
-            pod_data = {
+        pod_data = {
                 "Memory": mem_usage[0],
-                "Namespace": data["metadata"]["namespace"],
-                "PodName": data["metadata"]["name"],
-                # "CPU": cpu_usage,
-            }
-        else:
-            pod_data = {
-                "Memory": mem_usage[0],
+                **({'Namespace': data["metadata"]["namespace"]} if args.namespace is  None else {}),  #Read more about "dictionary unpacking"
                 "PodName": data["metadata"]["name"],
                 # "CPU": cpu_usage,
             }
