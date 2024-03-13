@@ -1,10 +1,9 @@
 import argparse
 from dotenv import load_dotenv
 from yaml import safe_load
-from os import popen
+from os import popen,environ
 from sys import exit
 
-load_dotenv()
     
 def nodeComputeUsage():
 ##Check pods on the node
@@ -38,8 +37,12 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--node", help="Node to check the usage for")
     parser.add_argument("--namespace", help="Namespace to check the usage for")
+    parser.add_argument("--cluster", help="Cluster to check for [prod,stage]")
     args = parser.parse_args()
-
+    if args.cluster == "prod" or args.cluster == "Prod":
+        environ['KUBECONFIG'] = "./kube_prod"
+    else:
+        environ['KUBECONFIG'] = "./kube_stage"
     #Exit if node name not given
     if not args.node:
         print("Provide the node name via --node option")

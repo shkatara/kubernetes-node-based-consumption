@@ -1,1 +1,3 @@
-kubeconfig
+kube_prod
+kube_stage
+
